@@ -10,15 +10,31 @@ describe("buyETHverifyTotal", () => {
 			cy.visit('https://www.binance.com/en/trade/ETH_BTC')
 			cy.get('#FormRow-BUY-quantity')
 			 .type('100')
-			 .type('{enter}')
 			 .should('have.value', '100')
+			 
+		//Just click off the element
+			 cy.get('.kVSdrr').click()
 			
+			 var priceval = 0
+			 var quantityval = 0
 			//Here is where my issue is this is not returning the value of the attribute given the element
 		    //Seems to be an issue getting the quanity value using this method unsure why?  It might be a hidden
 		    //element in the DOM.
-			cy.get('input[id=FormRow-BUY-quantity]').invoke('attr', 'value')
-			cy.get('input[id=FormRow-BUY-price]').invoke('attr', 'value')
-		
+			//cy.get('input[id=FormRow-BUY-quantity]').invoke('attr', 'value')
+			//cy.get('input[id=FormRow-BUY-price]').invoke('attr', 'value')
+			
+			// Not able to parse the attribute from this command
+			quantityval = cy.get('#FormRow-BUY-quantity').invoke('attr', 'value')
+			//cy.log(quantityval)
+			
+			priceval = cy.get('#FormRow-BUY-price').invoke('attr', 'value')
+			//cy.log(priceval)
+			
+
+			
+			const price = parseFloat(priceval) * parseFloat(quantityval)
+			cy.log(price)
+			
 			//var price = document.getElementById("FormRow-BUY-price");
 			
 			//getAttibute is null?  Unsure why i'm getting 'null' because when I place this into the browser console it returns the correct value
